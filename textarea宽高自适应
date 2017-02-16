@@ -1,0 +1,32 @@
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<div><textarea id='mt'  style="overflow:hidden;" autoWidth="true" onpropertychange="this.style.height = this.scrollHeight + 'px';" oninput="this.style.height = this.scrollHeight + 'px';">3</textarea></div>
+<script>
+	function GetCurrentStrWidth(text, font) {
+        var currentObj = $('<pre>').hide().appendTo(document.body);
+        $(currentObj).html(text).css('font', font);
+        var width = currentObj.width();
+        currentObj.remove();
+        return width;
+    }
+	
+    $.fn.autoWidth = function(){
+		
+        function autoWidth(elem){
+		
+			var text = $("#mt").val();  
+			var textFont = $("#mt").css("font");
+			var textWidth = GetCurrentStrWidth(text,textFont);
+			if(textWidth<50) return;
+			$("#mt").css("width",textWidth+20);
+        }
+
+        this.each(function(){
+            autoWidth(this);
+            $(this).on('keydown', function(){
+                autoWidth(this);
+            });
+        });
+
+    }
+    $('textarea[autoWidth]').autoWidth();
+</script>
